@@ -15,7 +15,6 @@ import com.kongzue.baseokhttp.util.JsonMap;
 import com.kongzue.dialog.v3.MessageDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.os.Handler;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -123,67 +122,46 @@ public class MainActivity extends AppCompatActivity {
 
         final TextView textView;
         textView = findViewById(R.id.textUsedDataContent);
-        try{
-            UpdateInfo.sendResquest(new VCallback() {
-                @Override
-                public void onSuccess(String result) {
 
-                    try {
-                        final JSONObject jsonObject = new JSONObject(result);
-                        final String usedData = jsonObject.getString("data_counter");
-                        Double textUesdData = Double.parseDouble(usedData) / 1024 / 1024 / 1024;
-                        DecimalFormat df = new DecimalFormat("0.00");
-                        String textUesdDatatext = df.format(textUesdData) + "  GiB";
-                        textView.setText(textUesdDatatext);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ProgressBar progressBar = findViewById(R.id.circularProgressbar);
-                                TextView textPercentage = findViewById(R.id.textPercentage);
+        HttpRequest.build(MainActivity.this, Key.info_url).setJsonResponseListener(new JsonResponseListener() {
+            @Override
+            public void onResponse(JsonMap main, Exception error) {
+                if (error == null) {
 
-                                long long_usedData = Long.parseLong(usedData);
-                                double data_Total = (long)500 * 1024 * 1024 * 1024;
-                                //System.out.println(long_usedData);
+                    final String usedData = main.getString("data_counter");
+                    System.out.println(main.toString() + "++++++++++++++++++++++++++++++++++");
+                    Double textUesdData = Double.parseDouble(usedData) / 1024 / 1024 / 1024;
+                    DecimalFormat df = new DecimalFormat("0.00");
+                    String textUesdDatatext = df.format(textUesdData) + "  GiB";
+                    textView.setText(textUesdDatatext);
 
-                                double divided = long_usedData / data_Total;
-                                int percent;
+                    ProgressBar progressBar = findViewById(R.id.circularProgressbar);
+                    TextView textPercentage = findViewById(R.id.textPercentage);
 
-                                percent = (int)(divided * 100.0);
-                                percent = 100 - percent;
-                                //System.out.println(percent + "-----------"  + divided);
+                    long long_usedData = Long.parseLong(usedData);
+                    double data_Total = (long)500 * 1024 * 1024 * 1024;
+                    //System.out.println(long_usedData);
+
+                    double divided = long_usedData / data_Total;
+                    int percent;
+
+                    percent = (int)(divided * 100.0);
+                    percent = 100 - percent;
+                    //System.out.println(percent + "-----------"  + divided);
 
 
-                                progressBar.setProgress(percent,true);
-                                String  text = percent + "%";
-                                textPercentage.setText(text);
+                    progressBar.setProgress(percent,true);
+                    String  text = percent + "%";
+                    textPercentage.setText(text);
 
+                    nextResetDate(main.getString("data_next_reset"));
 
-                                //nextResetDate
-                                try {
-                                    nextResetDate(jsonObject.getString("data_next_reset"));
-                                } catch (Exception e) {
-                                    //
-                                }
-
-
-                                progressBar.setVisibility(View.VISIBLE);
-                                textPercentage.setVisibility(View.VISIBLE);
-                            }
-                        });
-
-
-
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+                    progressBar.setVisibility(View.VISIBLE);
+                    textPercentage.setVisibility(View.VISIBLE);
 
                 }
-
-            });
-        } catch (Exception e) {
-            //
-        }
+            }
+        }).doGet();
     }
 
     public void setCurrentTime(){
