@@ -49,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
 
         FloatingActionButton fab = findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                feedback();
+                update();
                 /*(
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_CopySubscriptionLink:
                 //
                 Toast.makeText(this,"Subscription Link Copied", Toast.LENGTH_SHORT).show();
+            case R.id.feedback:
+                feedback();
         }
 
         //noinspection SimplifiableIfStatement

@@ -11,7 +11,11 @@
         android:orderInCategory="103"
         android:title="@string/action_about" />
     <item
-        android:id="@+id/action_exit"
+        android:id="@+id/feedback"
         android:orderInCategory="104"
+        android:title="@string/feedbackItem" />
+    <item
+        android:id="@+id/action_exit"
+        android:orderInCategory="105"
         android:title="@string/action_exit" />
 </menu>
