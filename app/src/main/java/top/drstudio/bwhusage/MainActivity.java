@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             //
         }
-        setClipboard();
 
     }
 
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this,"TODO", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_CopySubscriptionLink:
-                //
+                setClipboard();
                 Toast.makeText(this,"Subscription Link Copied", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.feedback:
