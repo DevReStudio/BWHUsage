@@ -191,15 +191,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void nextResetDate(String strDateTimestamp){
         long dateTimestamp = Long.parseLong(strDateTimestamp);
-        TimeZone tz = TimeZone.getTimeZone("America/Chicago");
+        TimeZone tz = TimeZone.getTimeZone("Asia/Hong_Kong");
         String pattern = "MM-dd HH:mm:ss";
 
         //String df = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.CHINA).format(new Date(dateTimestamp * 1000));
         //System.out.println(df + "66666");
 
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.US);
         sdf.getCalendar().setTimeZone(tz);
-        String nextResetTime = sdf.format(new Date(dateTimestamp * 1000));
+        String nextResetTime = sdf.format(new Date((dateTimestamp + 13 * 3600) * 1000));
         System.out.println(nextResetTime);
 
         TextView textView = findViewById(R.id.textDateResetContent);
