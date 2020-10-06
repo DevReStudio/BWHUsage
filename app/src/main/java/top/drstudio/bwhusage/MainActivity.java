@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+
 import android.net.Uri;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,6 +16,8 @@ import com.kongzue.baseokhttp.util.JsonMap;
 import com.kongzue.dialog.v3.MessageDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import java.text.DateFormat;
+import android.text.format.*;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +33,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -187,8 +191,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void nextResetDate(String strDateTimestamp){
         long dateTimestamp = Long.parseLong(strDateTimestamp);
+        TimeZone tz = TimeZone.getTimeZone("America/Chicago");
+        String pattern = "MM-dd HH:mm:ss";
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA);
+        //String df = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.CHINA).format(new Date(dateTimestamp * 1000));
+        //System.out.println(df + "66666");
+
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+        sdf.getCalendar().setTimeZone(tz);
         String nextResetTime = sdf.format(new Date(dateTimestamp * 1000));
         System.out.println(nextResetTime);
 
